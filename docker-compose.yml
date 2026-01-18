@@ -1,0 +1,12 @@
+services:
+  backend:
+    build: ./backend
+    container_name: games-backend
+    ports:
+      - "3000:3000"
+    environment:
+      DB_PATH: /app/data/db.sqlite
+      NODE_ENV: development
+    volumes:
+      - ./backend/data:/app/data
+    restart: unless-stopped
