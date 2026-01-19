@@ -64,3 +64,6 @@ const port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", () => {
   console.log(`I'm running on ${port}`);
 });
+
+const fs = require("fs");
+console.log("DB exists:", fs.existsSync("./src/db/database.sqlite"));
