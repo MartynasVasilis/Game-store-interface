@@ -6,11 +6,7 @@ const app = express();
 
 app.use(morgan("tiny"));
 app.use(express.json());
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  }),
-);
+app.use(cors());
 
 app.get("/list", (req, res) => {
   const search = req.query.search ? req.query.search.trim() : null;

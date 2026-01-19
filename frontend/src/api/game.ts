@@ -22,7 +22,9 @@ export type ListResponse = {
 export async function fetchGames(search: string, page = 1) {
   const params = new URLSearchParams({ page: page.toString(), limit: "8" });
   if (search) params.append("search", search);
-  const res = await fetch(`http://127.0.0.1:3000/list?${params}`);
+  const res = await fetch(
+    `https://game-store-interface-production.up.railway.app/list?${params}`,
+  );
   if (!res.ok) {
     throw new Error("Failed to fetch games");
   }
