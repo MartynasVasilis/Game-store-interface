@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:5173",
-  })
+  }),
 );
 
 app.get("/list", (req, res) => {
@@ -24,13 +24,14 @@ app.get("/list", (req, res) => {
       .map((word) => word + "*")
       .join(" ");
   }
+  console.log(processedSearch);
   let stmt, countStmt;
   if (search) {
-    stmt = db.prepare(
-      "SELECT * FROM GAME_ENTRY JOIN GAME_ENTRY_FTS ON GAME_ENTRY_FTS.rowid = GAME_ENTRY.id WHERE GAME_ENTRY_FTS MATCH ? ORDER BY bm25(GAME_ENTRY_FTS) LIMIT ? OFFSET ?"
-    );
+    const searchStatement =
+      "SELECT * FROM GAME_ENTRY JOIN GAME_ENTRY_FTS ON GAME_ENTRY_FTS.rowid = GAME_ENTRY.id WHERE GAME_ENTRY_FTS MATCH ? ORDER BY bm25(GAME_ENTRY_FTS) LIMIT ? OFFSET ?";
+    stmt = db.prepare(searchStatement);
     countStmt = db.prepare(
-      "SELECT COUNT(*) AS total FROM GAME_ENTRY JOIN GAME_ENTRY_FTS ON GAME_ENTRY_FTS.rowid = GAME_ENTRY.id WHERE GAME_ENTRY_FTS MATCH ?"
+      "SELECT COUNT(*) AS total FROM GAME_ENTRY JOIN GAME_ENTRY_FTS ON GAME_ENTRY_FTS.rowid = GAME_ENTRY.id WHERE GAME_ENTRY_FTS MATCH ?",
     );
     const games = stmt.all(processedSearch, limit, offset);
     const { total } = countStmt.get(processedSearch);

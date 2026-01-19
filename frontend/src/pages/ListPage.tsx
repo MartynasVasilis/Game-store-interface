@@ -33,7 +33,7 @@ export default function ListPage({
         <h1>Results found: </h1>
         <div className="font-bold">{totalGames}</div>
       </div>
-      <div className="grid grid-cols-4 gap-4 mt-4 h-235">
+      <div className="grid grid-cols-4 gap-4 mt-4">
         {games.map((game) => (
           <GameCard
             key={game.id}
