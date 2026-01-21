@@ -17,17 +17,14 @@ USING fts5(
   content_rowid='id'
 );
 
--- Sync on Insert
 CREATE TRIGGER game_entry_ai AFTER INSERT ON GAME_ENTRY BEGIN
   INSERT INTO GAME_ENTRY_FTS(rowid, title) VALUES (new.id, new.title);
 END;
 
--- Sync on Delete
 CREATE TRIGGER game_entry_ad AFTER DELETE ON GAME_ENTRY BEGIN
   INSERT INTO GAME_ENTRY_FTS(GAME_ENTRY_FTS, rowid, title) VALUES('delete', old.id, old.title);
 END;
 
--- Sync on Update
 CREATE TRIGGER game_entry_au AFTER UPDATE ON GAME_ENTRY BEGIN
   INSERT INTO GAME_ENTRY_FTS(GAME_ENTRY_FTS, rowid, title) VALUES('delete', old.id, old.title);
   INSERT INTO GAME_ENTRY_FTS(rowid, title) VALUES (new.id, new.title);
