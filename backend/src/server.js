@@ -6,7 +6,11 @@ const app = express();
 
 app.use(morgan("tiny"));
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://game-store-interface-frontend-bvrf06n1n.vercel.app"],
+  }),
+);
 
 app.get("/list", (req, res) => {
   const search = req.query.search ? req.query.search.trim() : null;
